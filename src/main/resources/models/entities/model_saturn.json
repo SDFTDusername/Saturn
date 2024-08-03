@@ -1,0 +1,92 @@
+{
+  "id": "base:entity_model:saturn",
+  "texture_width": 64,
+  "texture_height": 64,
+  "bones": [
+    {
+      "name": "body",
+      "pivot": [0, 0, 0]
+    },
+    {
+      "name": "torso",
+      "parent": "body",
+      "pivot": [0, 15, 0],
+      "cubes": [
+        {"origin": [-4.5, 15, -4.5], "size": [9, 9, 9], "uv": [0, 0]},
+        {"origin": [-3, 11, -3], "size": [6, 4, 6], "uv": [26, 28]}
+      ]
+    },
+    {
+      "name": "head",
+      "parent": "torso",
+      "pivot": [0, 24, 0],
+      "cubes": [
+        {"origin": [-4, 24, -4], "size": [8, 8, 8], "uv": [0, 18]}
+      ]
+    },
+    {
+      "name": "left_shoulder",
+      "parent": "torso",
+      "pivot": [4.5, 24, 0],
+      "cubes": [
+        {"origin": [4.5, 15.5, -1.5], "size": [3, 8.5, 3], "uv": [44, 38]}
+      ]
+    },
+    {
+      "name": "left_wrist",
+      "parent": "left_shoulder",
+      "pivot": [6, 15.5, 0],
+      "cubes": [
+        {"origin": [4.5, 9.5, -2], "size": [3.5, 6, 4], "uv": [36, 0]}
+      ]
+    },
+    {
+      "name": "right_shoulder",
+      "parent": "torso",
+      "pivot": [-4.5, 24, 0],
+      "cubes": [
+        {"origin": [-7.5, 15.5, -1.5], "size": [3, 8.5, 3], "uv": [32, 38]}
+      ]
+    },
+    {
+      "name": "right_wrist",
+      "parent": "right_shoulder",
+      "pivot": [-6, 15.5, 0],
+      "cubes": [
+        {"origin": [-8, 9.5, -2], "size": [3.5, 6, 4], "uv": [18, 38]}
+      ]
+    },
+    {
+      "name": "left_leg",
+      "parent": "torso",
+      "pivot": [1.85, 11, 0],
+      "cubes": [
+        {"origin": [0.1, 6, -2], "size": [3.5, 5, 4], "uv": [44, 24]}
+      ]
+    },
+    {
+      "name": "left_knee",
+      "parent": "left_leg",
+      "pivot": [2.1, 6, 0],
+      "cubes": [
+        {"origin": [0.1, 0, -2.5], "size": [4, 6, 5], "uv": [0, 34]}
+      ]
+    },
+    {
+      "name": "right_leg",
+      "parent": "torso",
+      "pivot": [-1.85, 11, 0],
+      "cubes": [
+        {"origin": [-3.6, 6, -2], "size": [3.5, 5, 4], "uv": [0, 45]}
+      ]
+    },
+    {
+      "name": "right_knee",
+      "parent": "right_leg",
+      "pivot": [-2.1, 6, 0],
+      "cubes": [
+        {"origin": [-4.1, 0, -2.5], "size": [4, 6, 5], "uv": [31, 13]}
+      ]
+    }
+  ]
+}

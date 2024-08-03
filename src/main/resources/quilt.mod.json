@@ -10,9 +10,9 @@
 
     "metadata": {
       "name": "${mod_name}",
-      "description": "A short description of your mod.",
+      "description": "Adds a new entity to the game.",
       "contributors": {
-        "Your name here": "Owner"
+        "SDFTDusername": "Programmer"
       },
 
       "contact": {
@@ -21,11 +21,11 @@
         "sources": "https://codeberg.org/CRModders/cosmic-quilt-example/"
       },
 
-      "icon": "assets/example_mod/icon.png"
+      "icon": "assets/saturn/icon.png"
     },
 
     "entrypoints": {
-      "init": "com.example.example_mod.ExampleMod"
+      "init": "com.sdftdusername.saturn.SaturnMod"
     },
 
     "depends": [

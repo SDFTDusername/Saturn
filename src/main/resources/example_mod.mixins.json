@@ -1,11 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.example.example_mod.mixins",
+  "package": "com.sdftdusername.saturn.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [
-    "MainMenuMixin"
+    "EntityGetSightRange",
+    "CommandGetFields",
+    "EntityModelInstanceGetBoneMap",
+    "ItemEntityGetItemStack"
   ],
   "injectors": {
     "defaultRequire": 1
