@@ -1,4 +1,4 @@
-# My Mod
+# Saturn
 A Quilt mod for Cosmic Reach that adds an entity.
 
 ## How to test/build
