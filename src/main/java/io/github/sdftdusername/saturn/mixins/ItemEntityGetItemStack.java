@@ -1,4 +1,4 @@
-package com.sdftdusername.saturn.mixins;
+package io.github.sdftdusername.saturn.mixins;
 
 import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.ItemStack;

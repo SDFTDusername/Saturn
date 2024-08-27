@@ -1,6 +1,5 @@
-package com.sdftdusername.saturn.commands;
+package io.github.sdftdusername.saturn.commands;
 
-import com.sdftdusername.saturn.mixins.CommandGetFields;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.commands.Command;
 
@@ -14,12 +13,12 @@ public class CommandLoad extends Command {
             return;
         }
 
-        ((CommandGetFields)this).getPlayer().getEntity().position.set(CommandSave.position);
-        ((CommandGetFields)this).getPlayer().getEntity().viewDirection.set(CommandSave.rotation);
+        player.getEntity().position.set(CommandSave.position);
+        player.getEntity().viewDirection.set(CommandSave.rotation);
     }
 
     @Override
-    public String getDescription() {
+    public String getShortDescription() {
         return "Loads the player position and rotation";
     }
 }

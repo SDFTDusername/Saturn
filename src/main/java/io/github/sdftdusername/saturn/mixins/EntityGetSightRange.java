@@ -1,4 +1,4 @@
-package com.sdftdusername.saturn.mixins;
+package io.github.sdftdusername.saturn.mixins;
 
 import finalforeach.cosmicreach.entities.Entity;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,12 +1,9 @@
-package com.sdftdusername.saturn.entities;
+package io.github.sdftdusername.saturn.entities;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.sdftdusername.saturn.SaturnMod;
-import com.sdftdusername.saturn.mixins.EntityGetSightRange;
-import com.sdftdusername.saturn.mixins.EntityModelInstanceGetBoneMap;
-import com.sdftdusername.saturn.mixins.ItemEntityGetItemStack;
+import com.badlogic.gdx.utils.ObjectMap;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.GameSingletons;
@@ -15,20 +12,22 @@ import finalforeach.cosmicreach.audio.SoundManager;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.ItemEntity;
-import finalforeach.cosmicreach.entities.Player;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemBlock;
 import finalforeach.cosmicreach.items.ItemStack;
-import finalforeach.cosmicreach.rendering.entities.EntityModel;
-import finalforeach.cosmicreach.rendering.entities.EntityModelInstance;
+import finalforeach.cosmicreach.rendering.entities.IEntityModel;
 import finalforeach.cosmicreach.savelib.crbin.CRBSerialized;
 import finalforeach.cosmicreach.world.Zone;
+import io.github.sdftdusername.saturn.Saturn;
+import io.github.sdftdusername.saturn.mixins.EntityGetSightRange;
+import io.github.sdftdusername.saturn.mixins.EntityModelInstanceGetBoneMap;
+import io.github.sdftdusername.saturn.mixins.ItemEntityGetItemStack;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 
 public class SaturnEntity extends Entity {
-    public static final String ENTITY_TYPE_ID = "base:saturn_guy";
+    public static final String ENTITY_TYPE_ID = "saturn:entity_saturn";
     public static final float SPEED = 3f;
 
     public static SoundBuffer[] yearnSounds = new SoundBuffer[8];
@@ -37,7 +36,9 @@ public class SaturnEntity extends Entity {
     public static String[] yearnMessages = new String[8];
     public static String[] thankMessages = new String[8];
 
-    public String currentAnimation = "";
+    public String currentAnimation;
+    public Object bodyBone = null;
+    public static IEntityModel model;
 
     public double nextTalk = 0;
     public boolean isTalking = false;
@@ -45,8 +46,6 @@ public class SaturnEntity extends Entity {
     public double talkOver = 0;
     public double playTalk = 0;
     public int talkOverState = 0;
-
-    public Object bodyBone = null;
 
     @CRBSerialized
     public float bodyRotationY = 0;
@@ -65,11 +64,11 @@ public class SaturnEntity extends Entity {
             return;
 
         if (model == null) {
-            SaturnMod.LOGGER.error("model is null, can't play animation");
+            Saturn.LOGGER.error("model is null, can't play animation");
             return;
         }
 
-        model.setCurrentAnimation(this, "animation.saturn." + name);
+        modelInstance.setCurrentAnimation("animation.saturn." + name);
         currentAnimation = name;
     }
 
@@ -120,11 +119,21 @@ public class SaturnEntity extends Entity {
         localBoundingBox.update();
         getBoundingBox(this.globalBoundingBox);
 
-        //viewPositionOffset = new Vector3(0, 1.75f, 0);
-
         Threads.runOnMainThread(
-                () -> this.model = GameSingletons.entityModelLoader
-                        .load(this, "model_saturn.json", "saturn.animation.json", "animation.saturn.idle", "saturn.png")
+                () -> {
+                    if (model == null) {
+                        model = GameSingletons.entityModelLoader
+                                .load(
+                                        this,
+                                        "model_saturn.json",
+                                        "saturn.animation.json",
+                                        "animation.saturn.idle",
+                                        "saturn.png"
+                                );
+                    }
+
+                    modelInstance = model.getNewModelInstance();
+                }
         );
 
         currentAnimation = "idle";
@@ -154,7 +163,7 @@ public class SaturnEntity extends Entity {
                 rotationField.set(bodyBone, rotation);
                 worked = true;
             } catch (Exception e) {
-                SaturnMod.LOGGER.error(e.getMessage());
+                Saturn.LOGGER.error(e.getMessage());
                 worked = false;
             }
         }
@@ -191,8 +200,7 @@ public class SaturnEntity extends Entity {
     @Override
     public void update(Zone zone, double deltaTime) {
         if (bodyBone == null) {
-            EntityModelInstance entityModelInstance = ((EntityModel)model).getModelInstance(this);
-            HashMap boneMap = ((EntityModelInstanceGetBoneMap)entityModelInstance).getBoneMap();
+            ObjectMap<String, Object> boneMap = ((EntityModelInstanceGetBoneMap)modelInstance).getBoneMap();
             bodyBone = boneMap.get("body");
         }
 
@@ -298,7 +306,6 @@ public class SaturnEntity extends Entity {
                             ItemBlock itemBlock = (ItemBlock) item;
 
                             if (itemBlock.getBlockState().getBlock().getStringId().equals("base:tree_log")) {
-                                //((ItemEntityGetItemStack) entity).die(zone);
                                 entity.hit(Float.MAX_VALUE);
                                 gotLog = true;
                                 talk(zone, closestPlayer, thankSounds, thankMessages);
@@ -309,7 +316,7 @@ public class SaturnEntity extends Entity {
                 }
             }
         } catch (Exception e) {
-            SaturnMod.LOGGER.error(e.getMessage());
+            Saturn.LOGGER.error(e.getMessage());
         }
 
         super.update(zone, deltaTime);

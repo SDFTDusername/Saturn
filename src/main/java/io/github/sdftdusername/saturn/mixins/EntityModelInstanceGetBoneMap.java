@@ -1,13 +1,11 @@
-package com.sdftdusername.saturn.mixins;
+package io.github.sdftdusername.saturn.mixins;
 
+import com.badlogic.gdx.utils.ObjectMap;
 import finalforeach.cosmicreach.rendering.entities.EntityModelInstance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
-
-import java.util.HashMap;
-
 @Mixin(EntityModelInstance.class)
 public interface EntityModelInstanceGetBoneMap {
     @Accessor(value = "boneMap")
-    HashMap getBoneMap();
+    ObjectMap<String, Object> getBoneMap();
 }
